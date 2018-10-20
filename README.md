@@ -3,10 +3,10 @@
 
 > • Creating an Inverted Index of words occurring in a set of web pages
 > • Get hands-on experience in GCP App Engine
-
-![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/HadoopExercise.pdf)
-
+> Inverted Indexwith doc ID
 ![Index Of Words](https://github.com/mukeshkdangi/InvertedIndex/blob/master/Screenshot%202018-10-20%20at%204.47.37%20PM.png)
+ 
+ > Project Details 
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise.jpg)
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise-2.jpg)
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise-3.jpg)
