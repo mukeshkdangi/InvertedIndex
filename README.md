@@ -6,7 +6,7 @@
 
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/HadoopExercise.pdf)
 
-![Index Of Words](https://github.com/mukeshkdangi/InvertedIndex/blob/master/index.txt)
+![Index Of Words](https://github.com/mukeshkdangi/InvertedIndex/blob/master/Screenshot%202018-10-20%20at%204.47.37%20PM.png)
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise.jpg)
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise-2.jpg)
 ![HadoopExercise](https://github.com/mukeshkdangi/InvertedIndex/blob/master/output/HadoopExercise-3.jpg)
