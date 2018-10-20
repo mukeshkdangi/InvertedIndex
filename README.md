@@ -3,6 +3,8 @@
 
 > • Creating an Inverted Index of words occurring in a set of web pages
 > • Get hands-on experience in GCP App Engine
+> . Data Cleaning and creating inverted index of large data set of web pages
+
 > Inverted Indexwith doc ID
 ![Index Of Words](https://github.com/mukeshkdangi/InvertedIndex/blob/master/Screenshot%202018-10-20%20at%204.47.37%20PM.png)
  
