@@ -1,7 +1,13 @@
-package edu.usc.cs572.hw3;
+package edu.usc.wordindexer;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /*
-@Author : Mukesh Dangi
+ * @Author : Mukesh Dangi
  */
 
 import org.apache.hadoop.conf.Configuration;
@@ -14,23 +20,11 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-
 public class InvertedIndexJob {
 
-
     public static void main(String[] args) throws Exception {
-        //  new WordIndexer().preProcess(args);
         Configuration conf = new Configuration();
-
-
         Job indexerJob = Job.getInstance(conf, "Word Indexer Job");
-
 
         FileInputFormat.addInputPath(indexerJob, new Path(args[0]));
         FileOutputFormat.setOutputPath(indexerJob, new Path(args[1]));
@@ -42,18 +36,14 @@ public class InvertedIndexJob {
         indexerJob.setMapperClass(TokenizeMapper.class);
 
         indexerJob.setJarByClass(InvertedIndexJob.class);
-        indexerJob.setNumReduceTasks(10);
         boolean status = indexerJob.waitForCompletion(true);
-        System.exit(status ? 1 : 2);
+        System.exit(status ? 0 : 1);
 
     }
-
 
     public void preProcess(String[] args) throws Exception {
 
-
     }
-
 
     public static void updateWordCount() {
 
@@ -61,33 +51,32 @@ public class InvertedIndexJob {
 
     public static class TokenizeMapper extends Mapper<LongWritable, Text, Text, Text> {
 
+        private Text word  = new Text();
+        private Text docid = new Text();
 
-        private Text word = new Text();
-        Text docid = new Text();
-
-        public void map(LongWritable key, Text value, Context context) throws IOException,
-                InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             String line = value.toString();
-            System.out.println(line);
+            String[] tokens = value.toString().split("\\t", 2);
+            docid = new Text(tokens[0].trim());
+            line = tokens[1].toLowerCase().replaceAll("[0-9,'-.`/:?]", " ").trim();
 
-            StringTokenizer tokens = new StringTokenizer(line);
-            String documentID = tokens.nextToken();
-            docid = new Text(documentID.trim());
+            StringTokenizer tknOfLine = new StringTokenizer(line);
 
-            while (tokens.hasMoreTokens()) {
-                String actToken = tokens.nextToken();
-                actToken = actToken.replaceAll("[^a-zA-Z ]", "").toLowerCase();
-                //System.out.println(actToken);
-                word.set(actToken);
-                context.write(word, docid);
+            while (tknOfLine.hasMoreTokens()) {
+                String actToken = tknOfLine.nextToken();
+
+                actToken = actToken.replaceAll("[^a-zA-Z]", "").trim();
+                if (!actToken.isEmpty()) {
+                    word.set(actToken);
+                    context.write(word, docid);
+                }
             }
 
         }
     }
 
     public static class DocIdReducer extends Reducer<Text, Text, Text, Text> {
-
 
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
@@ -100,7 +89,7 @@ public class InvertedIndexJob {
                 word = textItr.next().toString();
                 if (invertedIndxMap.containsKey(word)) {
                     wordFreq = (invertedIndxMap.get(word));
-                    wordFreq++;
+                    wordFreq += 1;
                     invertedIndxMap.put(word, wordFreq);
                 } else {
                     invertedIndxMap.put(word, 1);
@@ -114,19 +103,15 @@ public class InvertedIndexJob {
             }
             context.write(key, new Text(strBuffer.toString()));
 
-
         }
     }
-
 
     public void process() {
 
     }
-
 
     public void postProcess() {
 
     }
 
 }
-
